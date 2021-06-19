@@ -1,0 +1,23 @@
+{
+  "title": "[[**4LEAF GEAR SAMPLE**]]",
+  "subject": "[[**4LEAF GEAR SAMPLE**]]",
+  "author": "[[**4LEAF GEAR SAMPLE**]]",
+  "description": "[[**4LEAF GEAR SAMPLE**]]",
+  "keywords": "[[**4LEAF GEAR SAMPLE**]]",
+  "canonical": "https://www.sample.com",
+  "openGraph": {
+    "type": "website",
+    "site_name": "[[**4LEAF GEAR SAMPLE**]]",
+    "title": "[[**4LEAF GEAR SAMPLE**]]",
+    "description": "[[**4LEAF GEAR SAMPLE**]]",
+    "keywords": "[[**4LEAF GEAR SAMPLE**]]",
+    "url": "https://www.sample.com",
+    "images": [
+      {
+        "url": "/og_img.png",
+        "width": 800,
+        "height": 400
+      }
+    ]
+  }
+}
