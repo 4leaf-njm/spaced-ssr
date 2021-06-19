@@ -11,11 +11,11 @@ const ClientLayout = ({ children, title }) => {
         <title>{title}</title>
       </Head>
 
-      <Header />
+      {/* <Header /> */}
 
       {children}
 
-      <Footer />
+      {/* <Footer /> */}
     </React.Fragment>
   );
 };

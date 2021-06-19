@@ -6,7 +6,7 @@ import {
   Text,
   Image,
 } from "../../../Components/CommonComponents";
-import { GET_ALL_FOOTER_INFO } from "./LayoutQueries";
+import {} from "./LayoutQueries";
 import { useQuery } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
 import useWindowSize from "../../Hooks/useWindowSize";
@@ -19,11 +19,8 @@ const Footer = () => {
   ////////////// - USE STATE - ///////////////
 
   ////////////// - USE QUERY - ///////////////
-  const { data: fData, refetch: fRefetch } = useQuery(GET_ALL_FOOTER_INFO);
 
-  useEffect(() => {
-    fRefetch();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <WholeWrapper
