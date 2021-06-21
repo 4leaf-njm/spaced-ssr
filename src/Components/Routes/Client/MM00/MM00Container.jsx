@@ -50,7 +50,7 @@ const MM00Container = () => {
 
   const [currentAddress, setCurrentAddress] = useState(null);
 
-  const [newsSkip, setNewsSkip] = useState(true);
+  const [newsSkip, setNewsSkip] = useState(false);
   const [isRequest, setIsRequest] = useState(true);
   const [newsViewDatum, setNewsViewDatum] = useState(null);
 
