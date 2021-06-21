@@ -47,10 +47,11 @@ const MM00Container = () => {
 
   const [currentWeather, setCurrentWeather] = useState(null);
   const [yesterDayWeather, setYesterDayWeather] = useState(null);
+  const [dailyWeatherList, setDailyWeatherList] = useState([]);
 
   const [currentAddress, setCurrentAddress] = useState(null);
 
-  const [newsSkip, setNewsSkip] = useState(false);
+  const [newsSkip, setNewsSkip] = useState(true);
   const [isRequest, setIsRequest] = useState(true);
   const [newsViewDatum, setNewsViewDatum] = useState(null);
 
@@ -71,7 +72,7 @@ const MM00Container = () => {
 
     await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
+        `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
         {},
         {
           heasers: {
@@ -81,7 +82,8 @@ const MM00Container = () => {
         }
       )
       .then((response) => {
-        setCurrentWeather(response.data);
+        setCurrentWeather(response.data.current);
+        setDailyWeatherList(response.data.daily);
       });
   };
 
@@ -89,9 +91,14 @@ const MM00Container = () => {
     const lat = query.type ? type[query.type].lat : type["DEFAULT"].lat;
     const lon = query.type ? type[query.type].lon : type["DEFAULT"].lon;
 
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+
+    const timestamp = Math.floor(date.getTime() / 1000);
+
     await axios
       .get(
-        `http://history.openweathermap.org/data/2.5/history/city?units=metric&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
+        `https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&dt=${timestamp}&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
         {},
         {
           heasers: {
@@ -101,27 +108,7 @@ const MM00Container = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
-      });
-  };
-
-  const getDailyWeatherAPI = async () => {
-    const lat = query.type ? type[query.type].lat : type["DEFAULT"].lat;
-    const lon = query.type ? type[query.type].lon : type["DEFAULT"].lon;
-
-    await axios
-      .get(
-        `api.openweathermap.org/data/2.5/forecast/daily?units=metric&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
-        {},
-        {
-          heasers: {
-            "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
+        setYesterDayWeather(response.data.current);
       });
   };
 
@@ -155,8 +142,7 @@ const MM00Container = () => {
     newsRefetch();
 
     getWeatherAPI();
-    // getYesterdayWeatherAPI();
-    getDailyWeatherAPI();
+    getYesterdayWeatherAPI();
     getAddressAPI();
   }, []);
 
@@ -225,6 +211,7 @@ const MM00Container = () => {
       ampm={ampm}
       currentWeather={currentWeather}
       yesterDayWeather={yesterDayWeather}
+      dailyWeatherList={dailyWeatherList}
       currentAddress={currentAddress}
       //
       newsDatum={newsViewDatum}
