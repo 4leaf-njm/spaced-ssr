@@ -27,6 +27,7 @@ const MM00Presenter = ({
   currentAddress,
   //
   newsDatum,
+  fineDustData,
 }) => {
   let currentWeatherName = "";
 
@@ -211,14 +212,26 @@ const MM00Presenter = ({
                   : `${currentWeatherName}, 어제와 0도로 같아요`)}
             </Wrapper>
 
-            <Wrapper dr={`row`}>
+            <Wrapper
+              dr={`row`}
+              visibility={fineDustData ? `visible` : `hidden`}
+            >
               <Wrapper dr={`row`} width={`auto`} fontSize={`28px`}>
                 미세먼지
                 <SpanText padding={`0 12px 0 20px`} fontWeight={`900`}>
-                  보통
+                  {fineDustData &&
+                    (fineDustData.pm10Grade === `1`
+                      ? `좋음`
+                      : fineDustData.pm10Grade === `2`
+                      ? `보통`
+                      : fineDustData.pm10Grade === `3`
+                      ? `나쁨`
+                      : fineDustData.pm10Grade === `4`
+                      ? `매우나쁨`
+                      : ``)}
                 </SpanText>
                 <SpanText fontSize={`20px`} fontWeight={`700`}>
-                  58㎍/㎥
+                  {fineDustData && fineDustData.pm10Value}㎍/㎥
                 </SpanText>
               </Wrapper>
 
@@ -230,10 +243,19 @@ const MM00Presenter = ({
               >
                 초미세먼지
                 <SpanText padding={`0 12px 0 20px`} fontWeight={`900`}>
-                  좋음
+                  {fineDustData &&
+                    (fineDustData.pm25Grade === `1`
+                      ? `좋음`
+                      : fineDustData.pm25Grade === `2`
+                      ? `보통`
+                      : fineDustData.pm25Grade === `3`
+                      ? `나쁨`
+                      : fineDustData.pm25Grade === `4`
+                      ? `매우나쁨`
+                      : ``)}
                 </SpanText>
                 <SpanText fontSize={`20px`} fontWeight={`700`}>
-                  20㎍/㎥
+                  {fineDustData && fineDustData.pm25Value}㎍/㎥
                 </SpanText>
               </Wrapper>
             </Wrapper>
@@ -244,9 +266,7 @@ const MM00Presenter = ({
               al={`flex-start`}
               margin={`90px 0 0`}
             >
-              {console.log(dailyWeatherList)}
               {dailyWeatherList.slice(0, 7).map((data, idx) => {
-                console.log(data);
                 return (
                   <Wrapper key={idx} padding={`0 10px`} width={`auto`}>
                     <Wrapper

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MM00Presenter from "./MM00Presenter";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { GET_NEWS_DATA } from "./MM00Queries";
+import { GET_NEWS_DATA, GET_FINEDUST_DATA } from "./MM00Queries";
 import { animateScroll as scroll } from "react-scroll";
 import { toast } from "react-nextjs-toast";
 import { useRouter } from "next/router";
@@ -55,6 +55,9 @@ const MM00Container = () => {
   const [isRequest, setIsRequest] = useState(true);
   const [newsViewDatum, setNewsViewDatum] = useState(null);
 
+  const [fineDustSkip, setFineDustSkip] = useState(true);
+  const [fineDustViewData, setFineDustViewData] = useState(null);
+
   ////////////// - USE QUERY- ///////////////
   const { data: newsDatum, refetch: newsRefetch } = useQuery(GET_NEWS_DATA, {
     variables: {
@@ -62,6 +65,17 @@ const MM00Container = () => {
     },
     skip: newsSkip,
   });
+
+  const { data: fineDustData, refetch: fineDustRefetch } = useQuery(
+    GET_FINEDUST_DATA,
+    {
+      variables: {
+        lat: query.type ? type[query.type].lat : type["DEFAULT"].lat,
+        lon: query.type ? type[query.type].lon : type["DEFAULT"].lon,
+      },
+      skip: fineDustSkip,
+    }
+  );
 
   ///////////// - USE MUTATION- /////////////
 
@@ -140,10 +154,16 @@ const MM00Container = () => {
     scroll.scrollTo(0);
 
     newsRefetch();
+    fineDustRefetch();
 
     getWeatherAPI();
     getYesterdayWeatherAPI();
     getAddressAPI();
+
+    setTimeout(() => {
+      setNewsSkip(false);
+      setFineDustSkip(false);
+    }, 100);
   }, []);
 
   useInterval(() => {
@@ -191,11 +211,22 @@ const MM00Container = () => {
 
   useEffect(() => {
     if (newsDatum) {
-      if (newsDatum.getNewsData) setNewsViewDatum(newsDatum.getNewsData);
-      setIsRequest(false);
-      setNewsSkip(true);
+      if (newsDatum.getNewsData) {
+        setNewsViewDatum(newsDatum.getNewsData);
+        setIsRequest(false);
+        setNewsSkip(true);
+      }
     }
   }, [newsDatum]);
+
+  useEffect(() => {
+    if (fineDustData) {
+      if (fineDustData.getFineDustData) {
+        setFineDustViewData(fineDustData.getFineDustData);
+        setFineDustSkip(true);
+      }
+    }
+  }, [fineDustData]);
 
   return (
     <MM00Presenter
@@ -215,6 +246,7 @@ const MM00Container = () => {
       currentAddress={currentAddress}
       //
       newsDatum={newsViewDatum}
+      fineDustData={fineDustViewData}
     />
   );
 };
