@@ -94,9 +94,9 @@ const MM00Presenter = ({
               fontWeight={`600`}
               visibility={year && month && day && week ? `visible` : `hidden`}
             >
-              {year} - {month} - {day}
+              {year}. {month}. {day}
               <SpanText padding={`0 0 0 18px`} fontSize={`32px`}>
-                {week}
+                [{week}]
               </SpanText>
             </Wrapper>
 
@@ -120,7 +120,7 @@ const MM00Presenter = ({
               <SpanText padding={`0 8px 0 0`} fontWeight={`900`}>
                 {currentAddress && currentAddress.region_1depth_name}
               </SpanText>
-              — {currentAddress && currentAddress.region_2depth_name}
+              {/* — {currentAddress && currentAddress.region_2depth_name} */}
             </Wrapper>
           </Wrapper>
 
@@ -354,7 +354,12 @@ const MM00Presenter = ({
             visibility={hours && minutes && ampm ? `visible` : `hidden`}
           >
             {hours}:{minutes}
-            <SpanText padding={`0 0 0 10px`} fontSize={`48px`}>
+            <SpanText
+              isRelative={true}
+              top={`4px`}
+              padding={`0 0 0 10px`}
+              fontSize={`48px`}
+            >
               {ampm}
             </SpanText>
           </Wrapper>

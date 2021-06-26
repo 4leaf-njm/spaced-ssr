@@ -1102,6 +1102,10 @@ export const SpanText = styled.span`
   text-align: ${(props) => props.textAlign};
   transition: 0.5s;
   position: ${(props) => (props.isRelative ? `relative` : ``)};
+  top: ${(props) => props.top};
+  left: ${(props) => props.left};
+  bottom: ${(props) => props.bottom};
+  right: ${(props) => props.right};
   font-style: ${(props) => props.fontStyle};
   cursor: ${(props) => props.cursor};
   z-index: 1;
