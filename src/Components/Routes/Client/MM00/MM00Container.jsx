@@ -151,11 +151,7 @@ const MM00Container = () => {
 
   const getNewsAPI = async () => {
     await axios
-      .get(`https://4leaf-crawling.pe.kr/searchGoogle`, {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-        },
-      })
+      .get(`https://4leaf-crawling.pe.kr/searchGoogle`)
       .then(async (response) => {
         const filterList = await response.data.filter(
           (data) => !WORD_LIST.includes(data.title)
@@ -188,7 +184,7 @@ const MM00Container = () => {
     console.log(array3);
 
     setTimeout(() => {
-      // setNewsSkip(false);
+      setNewsSkip(false);
       setFineDustSkip(false);
     }, 100);
   }, []);
@@ -231,6 +227,8 @@ const MM00Container = () => {
   useEffect(() => {
     if (newsDatum) {
       if (newsDatum.getNewsData) {
+        console.log("newsData!!");
+        console.log(newsDatum.getNewsData);
         setNewsViewDatum(newsDatum.getNewsData);
         setIsRequest(false);
         setNewsSkip(true);
