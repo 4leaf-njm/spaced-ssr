@@ -206,8 +206,6 @@ const MM00Container = () => {
   useEffect(() => {
     if (newsDatum) {
       if (newsDatum.getNewsData) {
-        console.log("hi");
-        console.log(newsDatum.getNewsData.length);
         const newsList = newsDatum.getNewsData.filter((data, idx) => {
           return (
             newsDatum.getNewsData.findIndex((data2) => {
@@ -215,11 +213,11 @@ const MM00Container = () => {
             }) === idx
           );
         });
-        console.log(newsList.length);
+
         const filterList = newsList.filter(
           (data) => !WORD_LIST.includes(data.title)
         );
-        console.log(filterList.length);
+
         const shuffleList = shuffle(filterList);
 
         setNewsViewDatum(shuffleList);
@@ -228,7 +226,6 @@ const MM00Container = () => {
       }
     }
   }, [newsDatum]);
-  console.log(newsViewDatum && newsViewDatum.length);
 
   useEffect(() => {
     if (fineDustData) {
