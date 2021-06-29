@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import useWindowSize from "../../../Hooks/useWindowSize";
 import useInterval from "react-useinterval";
 import axios from "axios";
+import { shuffle } from "../../../../commonUtils";
+import { WORD_LIST } from "../../../../words";
 
 const MM00Container = () => {
   ////////////// - VARIABLE- ///////////////
@@ -147,21 +149,46 @@ const MM00Container = () => {
       });
   };
 
+  const getNewsAPI = async () => {
+    await axios
+      .get(`https://4leaf-crawling.pe.kr/searchGoogle`, {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+      })
+      .then(async (response) => {
+        const filterList = await response.data.filter(
+          (data) => !WORD_LIST.includes(data.title)
+        );
+        const shuffleList = await shuffle(filterList);
+        console.log(shuffleList);
+        setNewsViewDatum(shuffleList);
+      });
+  };
+
   ////////////// - USE EFFECT- //////////////
   useEffect(() => {
     if (typeof window === `undefined`) return;
 
     scroll.scrollTo(0);
 
-    newsRefetch();
+    // newsRefetch();
     fineDustRefetch();
 
     getWeatherAPI();
     getYesterdayWeatherAPI();
     getAddressAPI();
+    getNewsAPI();
+
+    const array = ["1", "2", "3", "4", "5", "6", "7"];
+
+    const array2 = ["2", "3", "4"];
+
+    const array3 = array.filter((data) => !array2.includes(data));
+    console.log(array3);
 
     setTimeout(() => {
-      setNewsSkip(false);
+      // setNewsSkip(false);
       setFineDustSkip(false);
     }, 100);
   }, []);
