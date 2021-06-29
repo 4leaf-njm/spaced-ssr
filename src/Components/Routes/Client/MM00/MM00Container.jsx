@@ -206,11 +206,11 @@ const MM00Container = () => {
   useEffect(() => {
     if (newsDatum) {
       if (newsDatum.getNewsData) {
-        const filterList = await newsDatum.getNewsData.filter(
+        const filterList = newsDatum.getNewsData.filter(
           (data) => !WORD_LIST.includes(data.title)
         );
-        const shuffleList = await shuffle(filterList);
-        console.log(shuffleList);
+        const shuffleList = shuffle(filterList);
+
         setNewsViewDatum(shuffleList);
         setIsRequest(false);
         setNewsSkip(true);
