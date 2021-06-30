@@ -91,7 +91,7 @@ const MM00Presenter = ({
               dr={`row`}
               width={`auto`}
               fontSize={`36px`}
-              fontWeight={`600`}
+              fontWeight={`500`}
               visibility={year && month && day && week ? `visible` : `hidden`}
             >
               {year}. {month}. {day}
@@ -110,14 +110,14 @@ const MM00Presenter = ({
             >
               <Wrapper
                 isRelative={true}
-                bottom={`1px`}
+                top={`1px`}
                 width={`auto`}
                 margin={`0 4px 0 0`}
-                fontWeight={`900`}
+                fontWeight={`700`}
               >
-                <GiPositionMarker size={28} />
+                <GiPositionMarker size={26} />
               </Wrapper>
-              <SpanText padding={`0 8px 0 0`} fontWeight={`900`}>
+              <SpanText padding={`0 8px 0 0`} fontWeight={`700`}>
                 {currentAddress && currentAddress.region_1depth_name}
               </SpanText>
               {/* — {currentAddress && currentAddress.region_2depth_name} */}
@@ -128,7 +128,7 @@ const MM00Presenter = ({
             isRelative={true}
             top={`30px`}
             ju={`flex-end`}
-            fontSize={`240px`}
+            fontSize={`230px`}
             fontWeight={`900`}
             lineHeight={`100%`}
             visibility={currentWeather ? `visible` : `hidden`}
@@ -191,7 +191,7 @@ const MM00Presenter = ({
             <Wrapper
               margin={`0 0 40px`}
               fontSize={`45px`}
-              fontWeight={`600`}
+              fontWeight={`500`}
               visibility={
                 currentWeather && currentWeatherName && yesterDayWeather
                   ? `visible`
@@ -273,7 +273,7 @@ const MM00Presenter = ({
                       margin={`0 0 10px`}
                       width={`auto`}
                       fontSize={`19px`}
-                      fontWeight={idx === 0 ? `900` : `600`}
+                      fontWeight={idx === 0 ? `700` : `500`}
                     >
                       {new Date(data.dt * 1000)
                         .toString()
@@ -350,7 +350,7 @@ const MM00Presenter = ({
             al={`flex-start`}
             width={`auto`}
             fontSize={`96px`}
-            fontWeight={`600`}
+            fontWeight={`400`}
             visibility={hours && minutes && ampm ? `visible` : `hidden`}
           >
             {hours}:{minutes}
@@ -369,7 +369,7 @@ const MM00Presenter = ({
               width={`auto`}
               margin={`60px 0 10px`}
               fontSize={`55px`}
-              fontWeight={`900`}
+              fontWeight={`700`}
             >
               이 시각 주요뉴스
             </Wrapper>

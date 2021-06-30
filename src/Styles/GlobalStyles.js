@@ -117,12 +117,12 @@ export default createGlobalStyle`
     ${editorCss};
     * {
         box-sizing : border-box;
-        font-family: '맑은 고딕', sans-serif;
+        font-family: 'Noto Sans KR', sans-serif;
     }
     body {
         background-color: ${(props) => props.theme.bgColor};
         color : ${(props) => props.theme.blackColor};
-        font-family: '맑은 고딕', sans-serif;
+        font-family: 'Noto Sans KR', sans-serif;
     }
     a {
         color : inherit;

@@ -23,7 +23,7 @@ const Container = styled(Wrapper)`
 const NewsContent = styled(Wrapper)`
   color: #000;
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 500;
   display: block;
   width: 100%;
   text-align: left;
