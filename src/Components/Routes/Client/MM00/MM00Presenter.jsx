@@ -366,12 +366,20 @@ const MM00Presenter = ({
 
           <Wrapper al={`flex-start`}>
             <Wrapper
-              width={`auto`}
+              isRelative={true}
+              al={`flex-start`}
               margin={`60px 0 10px`}
               fontSize={`55px`}
               fontWeight={`700`}
+              zIndex={`9999`}
             >
               이 시각 주요뉴스
+              <Wrapper
+                isAbsolute={true}
+                bottom={`-10px`}
+                height={`10px`}
+                bgColor={`#fff`}
+              ></Wrapper>
             </Wrapper>
 
             <NewsSlider datum={newsDatum} />

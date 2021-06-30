@@ -26,6 +26,8 @@ const NewsContent = styled(Wrapper)`
   font-weight: 500;
   display: block;
   width: 100%;
+  height: 100%;
+  line-height: 122px;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
