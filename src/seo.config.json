@@ -1,17 +1,17 @@
 {
-  "title": "[[**4LEAF GEAR SAMPLE**]]",
-  "subject": "[[**4LEAF GEAR SAMPLE**]]",
-  "author": "[[**4LEAF GEAR SAMPLE**]]",
-  "description": "[[**4LEAF GEAR SAMPLE**]]",
-  "keywords": "[[**4LEAF GEAR SAMPLE**]]",
-  "canonical": "https://www.sample.com",
+  "title": "스페이스애드",
+  "subject": "스페이스애드",
+  "author": "스페이스애드",
+  "description": "",
+  "keywords": "",
+  "canonical": "http://spaceadd.co.kr",
   "openGraph": {
     "type": "website",
-    "site_name": "[[**4LEAF GEAR SAMPLE**]]",
-    "title": "[[**4LEAF GEAR SAMPLE**]]",
-    "description": "[[**4LEAF GEAR SAMPLE**]]",
-    "keywords": "[[**4LEAF GEAR SAMPLE**]]",
-    "url": "https://www.sample.com",
+    "site_name": "스페이스애드",
+    "title": "스페이스애드",
+    "description": "",
+    "keywords": "",
+    "url": "http://spaceadd.co.kr",
     "images": [
       {
         "url": "/og_img.png",
