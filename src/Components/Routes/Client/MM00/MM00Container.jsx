@@ -206,21 +206,7 @@ const MM00Container = () => {
   useEffect(() => {
     if (newsDatum) {
       if (newsDatum.getNewsData) {
-        const newsList = newsDatum.getNewsData.filter((data, idx) => {
-          return (
-            newsDatum.getNewsData.findIndex((data2) => {
-              return data.title === data2.title;
-            }) === idx
-          );
-        });
-
-        const filterList = newsList.filter(
-          (data) => !WORD_LIST.includes(data.title)
-        );
-
-        const shuffleList = shuffle(filterList);
-
-        setNewsViewDatum(shuffleList);
+        setNewsViewDatum(newsDatum.getNewsData);
         setIsRequest(false);
         setNewsSkip(true);
       }

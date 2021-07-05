@@ -191,7 +191,7 @@ const MM00Presenter = ({
             <Wrapper
               margin={`0 0 40px`}
               fontSize={`45px`}
-              fontWeight={`500`}
+              fontWeight={`400`}
               visibility={
                 currentWeather && currentWeatherName && yesterDayWeather
                   ? `visible`
@@ -267,13 +267,15 @@ const MM00Presenter = ({
               margin={`90px 0 0`}
             >
               {dailyWeatherList.slice(0, 7).map((data, idx) => {
+                if (idx === 0) return null;
+
                 return (
                   <Wrapper key={idx} padding={`0 10px`} width={`auto`}>
                     <Wrapper
                       margin={`0 0 10px`}
                       width={`auto`}
                       fontSize={`19px`}
-                      fontWeight={idx === 0 ? `700` : `500`}
+                      fontWeight={idx === 0 ? `700` : `400`}
                     >
                       {new Date(data.dt * 1000)
                         .toString()
@@ -328,7 +330,7 @@ const MM00Presenter = ({
                     <Wrapper
                       width={`auto`}
                       fontSize={`17px`}
-                      fontWeight={idx === 0 ? `900` : `600`}
+                      fontWeight={idx === 0 ? `900` : `400`}
                     >
                       {Math.round(data.temp.max)}°/{Math.round(data.temp.min)}°
                     </Wrapper>
@@ -368,7 +370,7 @@ const MM00Presenter = ({
             <Wrapper
               isRelative={true}
               al={`flex-start`}
-              margin={`60px 0 10px`}
+              margin={`80px 0 10px`}
               fontSize={`55px`}
               fontWeight={`700`}
               zIndex={`9999`}

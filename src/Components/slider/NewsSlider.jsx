@@ -11,7 +11,7 @@ const Container = styled(Wrapper)`
   & .swiper-container {
     margin: 0;
     width: 100%;
-    height: 650px;
+    height: 630px;
   }
 
   & .swiper-slide {
@@ -22,12 +22,12 @@ const Container = styled(Wrapper)`
 
 const NewsContent = styled(Wrapper)`
   color: #000;
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 36px;
+  font-weight: 400;
   display: block;
   width: 100%;
   height: 100%;
-  line-height: 122px;
+  line-height: 170px;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -38,8 +38,8 @@ const NewsSlider = ({ datum }) => {
   return (
     <Container>
       <Swiper
-        slidesPerView={8}
-        slidesPerGroup={8}
+        slidesPerView={6}
+        slidesPerGroup={6}
         direction={`vertical`}
         loop={true}
         autoplay={{ delay: 60000 }}
