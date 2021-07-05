@@ -165,7 +165,7 @@ const MM00Container = () => {
     setTimeout(() => {
       setNewsSkip(false);
       setFineDustSkip(false);
-    }, 100);
+    }, 1000);
   }, []);
 
   useInterval(() => {
@@ -191,6 +191,16 @@ const MM00Container = () => {
     setMinutes(minutes);
     setAmpm(ampm);
   }, 1000);
+
+  useInterval(() => {
+    if (!newsViewDatum) {
+      setNewsSkip(false);
+    }
+
+    if (!fineDustViewData) {
+      setFineDustSkip(false);
+    }
+  }, 3000);
 
   useEffect(() => {
     if (size.width) {
