@@ -378,8 +378,8 @@ const MM00Presenter = ({
               이 시각 주요뉴스
               <Wrapper
                 isAbsolute={true}
-                bottom={`-10px`}
-                height={`10px`}
+                bottom={`-30px`}
+                height={`30px`}
                 bgColor={`#fff`}
               ></Wrapper>
             </Wrapper>
