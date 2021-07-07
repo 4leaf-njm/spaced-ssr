@@ -42,7 +42,7 @@ const NewsSlider = ({ datum }) => {
         slidesPerGroup={6}
         direction={`vertical`}
         loop={true}
-        autoplay={{ delay: 60000 }}
+        autoplay={{ delay: 60000 * 30 }}
       >
         {datum &&
           datum.map((data, index) => {
