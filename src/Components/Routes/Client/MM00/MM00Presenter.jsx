@@ -25,6 +25,7 @@ const MM00Presenter = ({
   yesterDayWeather,
   dailyWeatherList,
   currentAddress,
+  weatherTest,
   //
   newsDatum,
   fineDustData,
@@ -124,6 +125,7 @@ const MM00Presenter = ({
             </Wrapper>
           </Wrapper>
 
+          <Wrapper>{weatherTest}</Wrapper>
           <Wrapper
             isRelative={true}
             top={`30px`}

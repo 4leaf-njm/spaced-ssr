@@ -10,6 +10,7 @@ import useInterval from "react-useinterval";
 import axios from "axios";
 import { shuffle } from "../../../../commonUtils";
 import { WORD_LIST } from "../../../../words";
+import { useCookies } from "react-cookie";
 
 const MM00Container = () => {
   ////////////// - VARIABLE- ///////////////
@@ -33,6 +34,8 @@ const MM00Container = () => {
       logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
     },
   };
+
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   ////////////// - USE STATE- ///////////////
   const [width, setWidth] = useState(size.width);
@@ -60,6 +63,8 @@ const MM00Container = () => {
   const [fineDustSkip, setFineDustSkip] = useState(true);
   const [fineDustViewData, setFineDustViewData] = useState(null);
 
+  const [weatherTest, setWeatherTest] = useState("데이터 호출 대기중");
+
   ////////////// - USE QUERY- ///////////////
   const { data: newsDatum, refetch: newsRefetch } = useQuery(GET_NEWS_DATA, {
     variables: {
@@ -86,6 +91,8 @@ const MM00Container = () => {
     const lat = query.type ? type[query.type].lat : type["DEFAULT"].lat;
     const lon = query.type ? type[query.type].lon : type["DEFAULT"].lon;
 
+    // faa4512d2d4f3d6e504d9a594d0d2128
+
     await axios
       .get(
         `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
@@ -98,12 +105,26 @@ const MM00Container = () => {
         }
       )
       .then((response) => {
+        setCookie("SPACEADD-CURRENT-WEATHER", response.data.current, {
+          path: "/",
+          maxAge: 60 * 30,
+        });
+        setCookie("SPACEADD-DAILY-WEATHER", response.data.daily, {
+          path: "/",
+          maxAge: 60 * 30,
+        });
+
         setCurrentWeather(response.data.current);
         setDailyWeatherList(response.data.daily);
       });
   };
 
   const getYesterdayWeatherAPI = async () => {
+    if (cookies["SPACEADD-YESTERDAY-WEATHER"] === "true") {
+      setWeatherTest("데이터 불러옴");
+      return;
+    }
+
     const lat = query.type ? type[query.type].lat : type["DEFAULT"].lat;
     const lon = query.type ? type[query.type].lon : type["DEFAULT"].lon;
 
@@ -111,6 +132,12 @@ const MM00Container = () => {
     date.setDate(date.getDate() - 1);
 
     const timestamp = Math.floor(date.getTime() / 1000);
+
+    setCookie("SPACEADD-YESTERDAY-WEATHER", "true", {
+      path: "/",
+      maxAge: 60 * 30,
+    });
+    setWeatherTest("데이터 저장 됨");
 
     await axios
       .get(
@@ -124,6 +151,11 @@ const MM00Container = () => {
         }
       )
       .then((response) => {
+        // setCookie("SPACEADD-YESTERDAY-WEATHER", response.data.current, {
+        //   path: "/",
+        //   maxAge: 60 * 30,
+        // });
+
         setYesterDayWeather(response.data.current);
       });
   };
@@ -158,9 +190,13 @@ const MM00Container = () => {
     newsRefetch();
     fineDustRefetch();
 
-    getWeatherAPI();
-    getYesterdayWeatherAPI();
+    setTimeout(() => {
+      getWeatherAPI();
+      getYesterdayWeatherAPI();
+    }, 3000);
     getAddressAPI();
+
+    console.log(cookies);
 
     setTimeout(() => {
       setNewsSkip(false);
@@ -248,6 +284,7 @@ const MM00Container = () => {
       yesterDayWeather={yesterDayWeather}
       dailyWeatherList={dailyWeatherList}
       currentAddress={currentAddress}
+      weatherTest={weatherTest}
       //
       newsDatum={newsViewDatum}
       fineDustData={fineDustViewData}
