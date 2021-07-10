@@ -63,8 +63,6 @@ const MM00Container = () => {
   const [fineDustSkip, setFineDustSkip] = useState(true);
   const [fineDustViewData, setFineDustViewData] = useState(null);
 
-  const [weatherTest, setWeatherTest] = useState("데이터 호출 대기중");
-
   ////////////// - USE QUERY- ///////////////
   const { data: newsDatum, refetch: newsRefetch } = useQuery(GET_NEWS_DATA, {
     variables: {
@@ -88,14 +86,28 @@ const MM00Container = () => {
 
   ///////////// - EVENT HANDLER- ////////////
   const getWeatherAPI = async () => {
+    if (
+      cookies["SPACEADD-CURRENT-WEATHER"] &&
+      cookies["SPACEADD-DAILY-WEATHER"] &&
+      localStorage.getItem("SPACEADD-DAILY-WEATHER")
+    ) {
+      setCurrentWeather(cookies["SPACEADD-CURRENT-WEATHER"]);
+      setDailyWeatherList(
+        JSON.parse(localStorage.getItem("SPACEADD-DAILY-WEATHER"))
+      );
+
+      return;
+    }
+
     const lat = query.type ? type[query.type].lat : type["DEFAULT"].lat;
     const lon = query.type ? type[query.type].lon : type["DEFAULT"].lon;
 
     // faa4512d2d4f3d6e504d9a594d0d2128
+    // 5b6544a9120182f939912f117ffdc900
 
     await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
+        `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&appid=b1e69cf636fd7783aeddaf8252ace45a`,
         {},
         {
           heasers: {
@@ -105,13 +117,23 @@ const MM00Container = () => {
         }
       )
       .then((response) => {
-        setCookie("SPACEADD-CURRENT-WEATHER", response.data.current, {
+        setCookie(
+          "SPACEADD-CURRENT-WEATHER",
+          JSON.stringify(response.data.current),
+          {
+            path: "/",
+            maxAge: 60 * 60,
+          }
+        );
+
+        localStorage.setItem(
+          "SPACEADD-DAILY-WEATHER",
+          JSON.stringify(response.data.daily)
+        );
+
+        setCookie("SPACEADD-DAILY-WEATHER", "true", {
           path: "/",
-          maxAge: 60 * 30,
-        });
-        setCookie("SPACEADD-DAILY-WEATHER", response.data.daily, {
-          path: "/",
-          maxAge: 60 * 30,
+          maxAge: 60 * 60,
         });
 
         setCurrentWeather(response.data.current);
@@ -120,8 +142,9 @@ const MM00Container = () => {
   };
 
   const getYesterdayWeatherAPI = async () => {
-    if (cookies["SPACEADD-YESTERDAY-WEATHER"] === "true") {
-      setWeatherTest("데이터 불러옴");
+    if (cookies["SPACEADD-YESTERDAY-WEATHER"]) {
+      setYesterDayWeather(cookies["SPACEADD-YESTERDAY-WEATHER"]);
+
       return;
     }
 
@@ -133,15 +156,9 @@ const MM00Container = () => {
 
     const timestamp = Math.floor(date.getTime() / 1000);
 
-    setCookie("SPACEADD-YESTERDAY-WEATHER", "true", {
-      path: "/",
-      maxAge: 60 * 30,
-    });
-    setWeatherTest("데이터 저장 됨");
-
     await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&dt=${timestamp}&lat=${lat}&lon=${lon}&appid=faa4512d2d4f3d6e504d9a594d0d2128`,
+        `https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&dt=${timestamp}&lat=${lat}&lon=${lon}&appid=b1e69cf636fd7783aeddaf8252ace45a`,
         {},
         {
           heasers: {
@@ -151,16 +168,22 @@ const MM00Container = () => {
         }
       )
       .then((response) => {
-        // setCookie("SPACEADD-YESTERDAY-WEATHER", response.data.current, {
-        //   path: "/",
-        //   maxAge: 60 * 30,
-        // });
+        setCookie("SPACEADD-YESTERDAY-WEATHER", response.data.current, {
+          path: "/",
+          maxAge: 60 * 60,
+        });
 
         setYesterDayWeather(response.data.current);
       });
   };
 
   const getAddressAPI = async () => {
+    if (cookies["SPACEADD-CURRENT-ADDRESS"]) {
+      setCurrentAddress(cookies["SPACEADD-CURRENT-ADDRESS"]);
+
+      return;
+    }
+
     const lat = query.type ? type[query.type].lat : type["DEFAULT"].lat;
     const lon = query.type ? type[query.type].lon : type["DEFAULT"].lon;
 
@@ -176,6 +199,15 @@ const MM00Container = () => {
       )
       .then((response) => {
         if (response.data.documents.length > 0) {
+          setCookie(
+            "SPACEADD-CURRENT-ADDRESS",
+            response.data.documents[0].address,
+            {
+              path: "/",
+              maxAge: 60 * 60,
+            }
+          );
+
           setCurrentAddress(response.data.documents[0].address);
         }
       });
@@ -187,21 +219,29 @@ const MM00Container = () => {
 
     scroll.scrollTo(0);
 
-    newsRefetch();
-    fineDustRefetch();
-
-    setTimeout(() => {
-      getWeatherAPI();
-      getYesterdayWeatherAPI();
-    }, 3000);
+    getWeatherAPI();
+    getYesterdayWeatherAPI();
     getAddressAPI();
 
-    console.log(cookies);
+    if (cookies["SPACEADD-NEWS"] && localStorage.getItem("SPACEADD-NEWS")) {
+      setNewsViewDatum(JSON.parse(localStorage.getItem("SPACEADD-NEWS")));
+    } else {
+      newsRefetch();
 
-    setTimeout(() => {
-      setNewsSkip(false);
-      setFineDustSkip(false);
-    }, 1000);
+      setTimeout(() => {
+        setNewsSkip(false);
+      }, 1000);
+    }
+
+    if (cookies["SPACEADD-FINEDUST"]) {
+      setFineDustViewData(cookies["SPACEADD-FINEDUST"]);
+    } else {
+      fineDustRefetch();
+
+      setTimeout(() => {
+        setFineDustSkip(false);
+      }, 1000);
+    }
   }, []);
 
   useInterval(() => {
@@ -230,11 +270,19 @@ const MM00Container = () => {
 
   useInterval(() => {
     if (!newsViewDatum) {
-      setNewsSkip(false);
+      if (cookies["SPACEADD-NEWS"] && localStorage.getItem("SPACEADD-NEWS")) {
+        setNewsViewDatum(JSON.parse(localStorage.getItem("SPACEADD-NEWS")));
+      } else {
+        setNewsSkip(false);
+      }
     }
 
     if (!fineDustViewData) {
-      setFineDustSkip(false);
+      if (cookies["SPACEADD-FINEDUST"]) {
+        setFineDustViewData(cookies["SPACEADD-FINEDUST"]);
+      } else {
+        setFineDustSkip(false);
+      }
     }
   }, 3000);
 
@@ -253,6 +301,17 @@ const MM00Container = () => {
     if (newsDatum) {
       if (newsDatum.getNewsData) {
         setNewsViewDatum(newsDatum.getNewsData);
+
+        localStorage.setItem(
+          "SPACEADD-NEWS",
+          JSON.stringify(newsDatum.getNewsData)
+        );
+
+        setCookie("SPACEADD-NEWS", "true", {
+          path: "/",
+          maxAge: 60 * 60,
+        });
+
         setIsRequest(false);
         setNewsSkip(true);
       }
@@ -262,6 +321,11 @@ const MM00Container = () => {
   useEffect(() => {
     if (fineDustData) {
       if (fineDustData.getFineDustData) {
+        setCookie("SPACEADD-FINEDUST", fineDustData.getFineDustData, {
+          path: "/",
+          maxAge: 60 * 60,
+        });
+
         setFineDustViewData(fineDustData.getFineDustData);
         setFineDustSkip(true);
       }
@@ -284,7 +348,6 @@ const MM00Container = () => {
       yesterDayWeather={yesterDayWeather}
       dailyWeatherList={dailyWeatherList}
       currentAddress={currentAddress}
-      weatherTest={weatherTest}
       //
       newsDatum={newsViewDatum}
       fineDustData={fineDustViewData}
