@@ -38,17 +38,17 @@ const MM00Presenter = ({
         : currentWeather.weather[0].icon === `01n`
         ? `맑음`
         : currentWeather.weather[0].icon === `02d`
-        ? `구름`
+        ? `흐림`
         : currentWeather.weather[0].icon === `02n`
-        ? `구름`
+        ? `흐림`
         : currentWeather.weather[0].icon === `03d`
-        ? `구름`
+        ? `흐림`
         : currentWeather.weather[0].icon === `03n`
-        ? `구름`
+        ? `흐림`
         : currentWeather.weather[0].icon === `04d`
-        ? `구름`
+        ? `흐림`
         : currentWeather.weather[0].icon === `04n`
-        ? `구름`
+        ? `흐림`
         : currentWeather.weather[0].icon === `09d`
         ? `비`
         : currentWeather.weather[0].icon === `09n`
@@ -332,7 +332,7 @@ const MM00Presenter = ({
                       fontSize={`17px`}
                       fontWeight={idx === 0 ? `900` : `400`}
                     >
-                      {Math.round(data.temp.max)}°/{Math.round(data.temp.min)}°
+                      {Math.round(data.temp.min)}°/{Math.round(data.temp.max)}°
                     </Wrapper>
                   </Wrapper>
                 );
