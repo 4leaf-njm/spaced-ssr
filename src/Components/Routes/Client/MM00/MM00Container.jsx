@@ -19,11 +19,16 @@ const MM00Container = () => {
   const router = useRouter();
   const query = router.query;
 
+  const addressList = ["경기"];
+
+  // lat: "37.412723757389806",
+  // lon: "127.12990235563846",
+
   const type = {
     DEFAULT: {
       name: "광희빌딩",
-      lat: "37.564228799608344",
-      lon: "127.00569095238045",
+      lat: "37.39233416034177",
+      lon: "126.63922928447333",
       logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
     },
 
@@ -87,13 +92,19 @@ const MM00Container = () => {
   ///////////// - EVENT HANDLER- ////////////
   const getWeatherAPI = async () => {
     if (
-      cookies["SPACEADD-CURRENT-WEATHER"] &&
-      cookies["SPACEADD-DAILY-WEATHER"] &&
-      localStorage.getItem("SPACEADD-DAILY-WEATHER")
+      cookies[`SPACEADD-${query.type || `DEFAULT`}-CURRENT-WEATHER`] &&
+      cookies[`SPACEADD-${query.type || `DEFAULT`}-DAILY-WEATHER`] &&
+      localStorage.getItem(`SPACEADD-${query.type || `DEFAULT`}-DAILY-WEATHER`)
     ) {
-      setCurrentWeather(cookies["SPACEADD-CURRENT-WEATHER"]);
+      setCurrentWeather(
+        cookies[`SPACEADD-${query.type || `DEFAULT`}-CURRENT-WEATHER`]
+      );
       setDailyWeatherList(
-        JSON.parse(localStorage.getItem("SPACEADD-DAILY-WEATHER"))
+        JSON.parse(
+          localStorage.getItem(
+            `SPACEADD-${query.type || `DEFAULT`}-DAILY-WEATHER`
+          )
+        )
       );
 
       return;
@@ -118,22 +129,22 @@ const MM00Container = () => {
       )
       .then((response) => {
         setCookie(
-          "SPACEADD-CURRENT-WEATHER",
+          `SPACEADD-${query.type || `DEFAULT`}-CURRENT-WEATHER`,
           JSON.stringify(response.data.current),
           {
             path: "/",
-            maxAge: 60 * 60 * 12,
+            maxAge: 60 * 60 * 8,
           }
         );
 
         localStorage.setItem(
-          "SPACEADD-DAILY-WEATHER",
+          `SPACEADD-${query.type || `DEFAULT`}-DAILY-WEATHER`,
           JSON.stringify(response.data.daily)
         );
 
-        setCookie("SPACEADD-DAILY-WEATHER", "true", {
+        setCookie(`SPACEADD-${query.type || `DEFAULT`}-DAILY-WEATHER`, "true", {
           path: "/",
-          maxAge: 60 * 60 * 12,
+          maxAge: 60 * 60 * 8,
         });
 
         setCurrentWeather(response.data.current);
@@ -142,8 +153,10 @@ const MM00Container = () => {
   };
 
   const getYesterdayWeatherAPI = async () => {
-    if (cookies["SPACEADD-YESTERDAY-WEATHER"]) {
-      setYesterDayWeather(cookies["SPACEADD-YESTERDAY-WEATHER"]);
+    if (cookies[`SPACEADD-${query.type || `DEFAULT`}-YESTERDAY-WEATHER`]) {
+      setYesterDayWeather(
+        cookies[`SPACEADD-${query.type || `DEFAULT`}-YESTERDAY-WEATHER`]
+      );
 
       return;
     }
@@ -168,18 +181,24 @@ const MM00Container = () => {
         }
       )
       .then((response) => {
-        setCookie("SPACEADD-YESTERDAY-WEATHER", response.data.current, {
-          path: "/",
-          maxAge: 60 * 60 * 12,
-        });
+        setCookie(
+          `SPACEADD-${query.type || `DEFAULT`}-YESTERDAY-WEATHER`,
+          response.data.current,
+          {
+            path: "/",
+            maxAge: 60 * 60 * 8,
+          }
+        );
 
         setYesterDayWeather(response.data.current);
       });
   };
 
   const getAddressAPI = async () => {
-    if (cookies["SPACEADD-CURRENT-ADDRESS"]) {
-      setCurrentAddress(cookies["SPACEADD-CURRENT-ADDRESS"]);
+    if (cookies[`SPACEADD-${query.type || `DEFAULT`}-CURRENT-ADDRESS`]) {
+      setCurrentAddress(
+        cookies[`SPACEADD-${query.type || `DEFAULT`}-CURRENT-ADDRESS`]
+      );
 
       return;
     }
@@ -200,7 +219,7 @@ const MM00Container = () => {
       .then((response) => {
         if (response.data.documents.length > 0) {
           setCookie(
-            "SPACEADD-CURRENT-ADDRESS",
+            `SPACEADD-${query.type || `DEFAULT`}-CURRENT-ADDRESS`,
             response.data.documents[0].address,
             {
               path: "/",
@@ -208,6 +227,7 @@ const MM00Container = () => {
             }
           );
 
+          console.log(response.data.documents[0]);
           setCurrentAddress(response.data.documents[0].address);
         }
       });
@@ -223,8 +243,15 @@ const MM00Container = () => {
     getYesterdayWeatherAPI();
     getAddressAPI();
 
-    if (cookies["SPACEADD-NEWS"] && localStorage.getItem("SPACEADD-NEWS")) {
-      setNewsViewDatum(JSON.parse(localStorage.getItem("SPACEADD-NEWS")));
+    if (
+      cookies[`SPACEADD-${query.type || `DEFAULT`}-NEWS`] &&
+      localStorage.getItem(`SPACEADD-${query.type || `DEFAULT`}-NEWS`)
+    ) {
+      setNewsViewDatum(
+        JSON.parse(
+          localStorage.getItem(`SPACEADD-${query.type || `DEFAULT`}-NEWS`)
+        )
+      );
     } else {
       newsRefetch();
 
@@ -233,8 +260,10 @@ const MM00Container = () => {
       }, 1000);
     }
 
-    if (cookies["SPACEADD-FINEDUST"]) {
-      setFineDustViewData(cookies["SPACEADD-FINEDUST"]);
+    if (cookies[`SPACEADD-${query.type || `DEFAULT`}-FINEDUST`]) {
+      setFineDustViewData(
+        cookies[`SPACEADD-${query.type || `DEFAULT`}-FINEDUST`]
+      );
     } else {
       fineDustRefetch();
 
@@ -270,16 +299,25 @@ const MM00Container = () => {
 
   useInterval(() => {
     if (!newsViewDatum) {
-      if (cookies["SPACEADD-NEWS"] && localStorage.getItem("SPACEADD-NEWS")) {
-        setNewsViewDatum(JSON.parse(localStorage.getItem("SPACEADD-NEWS")));
+      if (
+        cookies[`SPACEADD-${query.type || `DEFAULT`}-NEWS`] &&
+        localStorage.getItem(`SPACEADD-${query.type || `DEFAULT`}-NEWS`)
+      ) {
+        setNewsViewDatum(
+          JSON.parse(
+            localStorage.getItem(`SPACEADD-${query.type || `DEFAULT`}-NEWS`)
+          )
+        );
       } else {
         setNewsSkip(false);
       }
     }
 
     if (!fineDustViewData) {
-      if (cookies["SPACEADD-FINEDUST"]) {
-        setFineDustViewData(cookies["SPACEADD-FINEDUST"]);
+      if (cookies[`SPACEADD-${query.type || `DEFAULT`}-FINEDUST`]) {
+        setFineDustViewData(
+          cookies[`SPACEADD-${query.type || `DEFAULT`}-FINEDUST`]
+        );
       } else {
         setFineDustSkip(false);
       }
@@ -303,11 +341,11 @@ const MM00Container = () => {
         setNewsViewDatum(newsDatum.getNewsData);
 
         localStorage.setItem(
-          "SPACEADD-NEWS",
+          `SPACEADD-${query.type || `DEFAULT`}-NEWS`,
           JSON.stringify(newsDatum.getNewsData)
         );
 
-        setCookie("SPACEADD-NEWS", "true", {
+        setCookie(`SPACEADD-${query.type || `DEFAULT`}-NEWS`, "true", {
           path: "/",
           maxAge: 60 * 60,
         });
@@ -321,10 +359,14 @@ const MM00Container = () => {
   useEffect(() => {
     if (fineDustData) {
       if (fineDustData.getFineDustData) {
-        setCookie("SPACEADD-FINEDUST", fineDustData.getFineDustData, {
-          path: "/",
-          maxAge: 60 * 60 * 12,
-        });
+        setCookie(
+          `SPACEADD-${query.type || `DEFAULT`}-FINEDUST`,
+          fineDustData.getFineDustData,
+          {
+            path: "/",
+            maxAge: 60 * 60 * 12,
+          }
+        );
 
         setFineDustViewData(fineDustData.getFineDustData);
         setFineDustSkip(true);
@@ -336,6 +378,7 @@ const MM00Container = () => {
     <MM00Presenter
       width={width}
       //
+      addressList={addressList}
       logoPath={logoPath}
       year={year}
       month={month}

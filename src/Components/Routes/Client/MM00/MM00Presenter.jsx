@@ -13,6 +13,7 @@ import NewsSlider from "../../../slider/NewsSlider";
 const MM00Presenter = ({
   width,
   //
+  addressList,
   logoPath,
   year,
   month,
@@ -82,7 +83,7 @@ const MM00Presenter = ({
         <Wrapper
           ju={`space-between`}
           al={`flex-start`}
-          width={`45%`}
+          width={`40%`}
           padding={`0 75px 0 0`}
           borderRight={`1px solid #111111`}
         >
@@ -118,7 +119,16 @@ const MM00Presenter = ({
                 <GiPositionMarker size={26} />
               </Wrapper>
               <SpanText padding={`0 8px 0 0`} fontWeight={`700`}>
-                {currentAddress && currentAddress.region_1depth_name}
+                {currentAddress &&
+                  (addressList.includes(currentAddress.region_1depth_name)
+                    ? currentAddress.region_2depth_name
+                        .split(` `)[0]
+                        .substring(
+                          0,
+                          currentAddress.region_2depth_name.split(` `)[0]
+                            .length - 1
+                        )
+                    : currentAddress.region_1depth_name)}
               </SpanText>
               {/* — {currentAddress && currentAddress.region_2depth_name} */}
             </Wrapper>
@@ -207,7 +217,7 @@ const MM00Presenter = ({
                     )}도 높아요`
                   : Math.round(currentWeather.temp - yesterDayWeather.temp) < 0
                   ? `${currentWeatherName}, 어제보다 ${Math.round(
-                      currentWeather.temp - yesterDayWeather.temp
+                      yesterDayWeather.temp - currentWeather.temp
                     )}도 낮아요`
                   : `${currentWeatherName}, 어제와 0도로 같아요`)}
             </Wrapper>
@@ -231,7 +241,9 @@ const MM00Presenter = ({
                       : ``)}
                 </SpanText>
                 <SpanText fontSize={`20px`} fontWeight={`700`}>
-                  {fineDustData && fineDustData.pm10Value}㎍/㎥
+                  {fineDustData && fineDustData.pm10Grade
+                    ? `${fineDustData.pm10Value}㎍/㎥`
+                    : `-`}
                 </SpanText>
               </Wrapper>
 
@@ -255,7 +267,9 @@ const MM00Presenter = ({
                       : ``)}
                 </SpanText>
                 <SpanText fontSize={`20px`} fontWeight={`700`}>
-                  {fineDustData && fineDustData.pm25Value}㎍/㎥
+                  {fineDustData && fineDustData.pm25Grade
+                    ? `${fineDustData.pm25Value}㎍/㎥`
+                    : `-`}
                 </SpanText>
               </Wrapper>
             </Wrapper>
@@ -344,35 +358,44 @@ const MM00Presenter = ({
         <Wrapper
           ju={`space-between`}
           al={`flex-start`}
-          width={`55%`}
+          width={`60%`}
           padding={`0 0 0 75px`}
         >
-          <Wrapper
-            dr={`row`}
-            al={`flex-start`}
-            width={`auto`}
-            fontSize={`96px`}
-            fontWeight={`400`}
-            visibility={hours && minutes && ampm ? `visible` : `hidden`}
-          >
-            {hours}:{minutes}
-            <SpanText
-              isRelative={true}
-              top={`4px`}
-              padding={`0 0 0 10px`}
-              fontSize={`48px`}
+          <Wrapper dr={`row`} ju={`space-between`} al={`flex-end`}>
+            <Wrapper
+              dr={`row`}
+              al={`flex-start`}
+              width={`auto`}
+              fontSize={`96px`}
+              fontWeight={`400`}
+              visibility={hours && minutes && ampm ? `visible` : `hidden`}
             >
-              {ampm}
-            </SpanText>
+              {hours}:{minutes}
+              <SpanText
+                isRelative={true}
+                top={`4px`}
+                padding={`0 0 0 10px`}
+                fontSize={`48px`}
+              >
+                {ampm}
+              </SpanText>
+            </Wrapper>
+
+            <Wrapper isRelative={true} right={`10px`} width={`auto`}>
+              <Image
+                src={`https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2FspaceAdd_logo_b.png?alt=media&token=2c12df80-3370-410c-848a-1cd1976334aa`}
+                width={`150px`}
+              />
+            </Wrapper>
           </Wrapper>
 
           <Wrapper al={`flex-start`}>
             <Wrapper
               isRelative={true}
               al={`flex-start`}
-              margin={`80px 0 10px`}
-              fontSize={`55px`}
-              fontWeight={`700`}
+              margin={`0 0 30px`}
+              fontSize={`52px`}
+              fontWeight={`600`}
               zIndex={`9999`}
             >
               이 시각 주요뉴스

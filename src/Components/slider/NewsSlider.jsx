@@ -11,7 +11,7 @@ const Container = styled(Wrapper)`
   & .swiper-container {
     margin: 0;
     width: 100%;
-    height: 630px;
+    height: 460px;
   }
 
   & .swiper-slide {
@@ -22,12 +22,12 @@ const Container = styled(Wrapper)`
 
 const NewsContent = styled(Wrapper)`
   color: #000;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: 400;
   display: block;
   width: 100%;
   height: 100%;
-  line-height: 170px;
+  line-height: 122px;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
