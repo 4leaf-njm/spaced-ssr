@@ -24,11 +24,14 @@ const MM00Container = () => {
   // lat: "37.412723757389806",
   // lon: "127.12990235563846",
 
+  // lat: "37.39233416034177",
+  // lon: "126.63922928447333",
+
   const type = {
     DEFAULT: {
       name: "광희빌딩",
-      lat: "37.39233416034177",
-      lon: "126.63922928447333",
+      lat: "37.564228799608344",
+      lon: "127.00569095238045",
       logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
     },
 
@@ -44,6 +47,7 @@ const MM00Container = () => {
 
   ////////////// - USE STATE- ///////////////
   const [width, setWidth] = useState(size.width);
+  const [height, setHeight] = useState(size.height);
 
   const [logoPath, setLogoPath] = useState(type["DEFAULT"].logo);
 
@@ -227,7 +231,6 @@ const MM00Container = () => {
             }
           );
 
-          console.log(response.data.documents[0]);
           setCurrentAddress(response.data.documents[0].address);
         }
       });
@@ -331,6 +334,12 @@ const MM00Container = () => {
   }, [size.width]);
 
   useEffect(() => {
+    if (size.height) {
+      setHeight(size.height);
+    }
+  }, [size.height]);
+
+  useEffect(() => {
     setLogoPath(query.type ? type[query.type].logo : type["DEFAULT"].logo);
     getWeatherAPI();
   }, [query.type]);
@@ -377,6 +386,7 @@ const MM00Container = () => {
   return (
     <MM00Presenter
       width={width}
+      height={height}
       //
       addressList={addressList}
       logoPath={logoPath}

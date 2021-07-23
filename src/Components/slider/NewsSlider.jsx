@@ -11,7 +11,7 @@ const Container = styled(Wrapper)`
   & .swiper-container {
     margin: 0;
     width: 100%;
-    height: 460px;
+    height: ${(props) => props.height};
   }
 
   & .swiper-slide {
@@ -27,16 +27,16 @@ const NewsContent = styled(Wrapper)`
   display: block;
   width: 100%;
   height: 100%;
-  line-height: 122px;
+  line-height: ${(props) => props.lineHeight};
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 `;
 
-const NewsSlider = ({ datum }) => {
+const NewsSlider = ({ width, height, datum }) => {
   return (
-    <Container>
+    <Container height={width > height ? `490px` : `510px`}>
       <Swiper
         slidesPerView={6}
         slidesPerGroup={6}
@@ -48,7 +48,9 @@ const NewsSlider = ({ datum }) => {
           datum.map((data, index) => {
             return (
               <SwiperSlide key={index}>
-                <NewsContent>{data.title}</NewsContent>
+                <NewsContent lineHeight={width > height ? `100px` : `122px`}>
+                  {data.title}
+                </NewsContent>
               </SwiperSlide>
             );
           })}

@@ -12,6 +12,7 @@ import NewsSlider from "../../../slider/NewsSlider";
 
 const MM00Presenter = ({
   width,
+  height,
   //
   addressList,
   logoPath,
@@ -71,72 +72,103 @@ const MM00Presenter = ({
         : currentWeather.weather[0].icon === `50n`
         ? `안개`
         : ``;
+
   return (
     <WholeWrapper
       isRelative={true}
       index={`1`}
-      width={`1920px`}
-      height={`1080px`}
+      width={width > height ? `1920px` : `1080px`}
+      height={width > height ? `1080px` : `1920px`}
       padding={`100px`}
     >
-      <Wrapper dr={`row`} al={`normal`} height={`100%`}>
+      <Wrapper
+        dr={width > height ? `column` : `row`}
+        al={`normal`}
+        height={`100%`}
+      >
         <Wrapper
           ju={`space-between`}
           al={`flex-start`}
-          width={`40%`}
-          padding={`0 75px 0 0`}
-          borderRight={`1px solid #111111`}
+          width={width > height ? `40%` : `100%`}
+          height={width > height ? `100%` : `60%`}
+          padding={width > height ? `0 75px 0 0` : `0 0 100px`}
+          borderRight={width > height ? `1px solid #111111` : `none`}
+          borderBottom={width > height ? `nonoe` : `1px solid #111111`}
         >
-          <Wrapper al={`flex-start`}>
-            <Wrapper
-              dr={`row`}
-              width={`auto`}
-              fontSize={`36px`}
-              fontWeight={`500`}
-              visibility={year && month && day && week ? `visible` : `hidden`}
-            >
-              {year}. {month}. {day}
-              <SpanText padding={`0 0 0 18px`} fontSize={`32px`}>
-                [{week}]
-              </SpanText>
+          <Wrapper dr={`row`} ju={`space-between`}>
+            <Wrapper al={`flex-start`} width={`auto`}>
+              <Wrapper
+                dr={`row`}
+                width={`auto`}
+                fontSize={`36px`}
+                fontWeight={`500`}
+                visibility={year && month && day && week ? `visible` : `hidden`}
+              >
+                {year}. {month}. {day}
+                <SpanText padding={`0 0 0 18px`} fontSize={`32px`}>
+                  [{week}]
+                </SpanText>
+              </Wrapper>
+
+              <Wrapper
+                dr={`row`}
+                width={`auto`}
+                margin={`15px 0 0`}
+                fontSize={`32px`}
+                fontWeight={`600`}
+                visibility={currentAddress ? `visible` : `hidden`}
+              >
+                <Wrapper
+                  isRelative={true}
+                  top={`1px`}
+                  width={`auto`}
+                  margin={`0 4px 0 0`}
+                  fontWeight={`700`}
+                >
+                  <GiPositionMarker size={26} />
+                </Wrapper>
+                <SpanText padding={`0 8px 0 0`} fontWeight={`700`}>
+                  {currentAddress &&
+                    (addressList.includes(currentAddress.region_1depth_name)
+                      ? currentAddress.region_2depth_name
+                          .split(` `)[0]
+                          .substring(
+                            0,
+                            currentAddress.region_2depth_name.split(` `)[0]
+                              .length - 1
+                          )
+                      : currentAddress.region_1depth_name)}
+                </SpanText>
+                {/* — {currentAddress && currentAddress.region_2depth_name} */}
+              </Wrapper>
             </Wrapper>
 
-            <Wrapper
-              dr={`row`}
-              width={`auto`}
-              margin={`15px 0 0`}
-              fontSize={`32px`}
-              fontWeight={`600`}
-              visibility={currentAddress ? `visible` : `hidden`}
-            >
+            {width < height && (
               <Wrapper
-                isRelative={true}
-                top={`1px`}
+                dr={`row`}
+                al={`flex-start`}
                 width={`auto`}
-                margin={`0 4px 0 0`}
-                fontWeight={`700`}
+                fontSize={`96px`}
+                fontWeight={`400`}
+                visibility={hours && minutes && ampm ? `visible` : `hidden`}
               >
-                <GiPositionMarker size={26} />
+                {hours}:{minutes}
+                <SpanText
+                  isRelative={true}
+                  top={`4px`}
+                  padding={`0 0 0 10px`}
+                  fontSize={`48px`}
+                >
+                  {ampm}
+                </SpanText>
               </Wrapper>
-              <SpanText padding={`0 8px 0 0`} fontWeight={`700`}>
-                {currentAddress &&
-                  (addressList.includes(currentAddress.region_1depth_name)
-                    ? currentAddress.region_2depth_name
-                        .split(` `)[0]
-                        .substring(
-                          0,
-                          currentAddress.region_2depth_name.split(` `)[0]
-                            .length - 1
-                        )
-                    : currentAddress.region_1depth_name)}
-              </SpanText>
-              {/* — {currentAddress && currentAddress.region_2depth_name} */}
-            </Wrapper>
+            )}
           </Wrapper>
 
           <Wrapper
             isRelative={true}
             top={`30px`}
+            left={width > height ? `0` : `30px`}
             ju={`flex-end`}
             fontSize={`230px`}
             fontWeight={`900`}
@@ -356,49 +388,62 @@ const MM00Presenter = ({
         </Wrapper>
 
         <Wrapper
-          ju={`space-between`}
+          ju={width > height ? `space-between` : `flex-end`}
           al={`flex-start`}
-          width={`60%`}
-          padding={`0 0 0 75px`}
+          width={width > height ? `60%` : `100%`}
+          height={width > height ? `100%` : `40%`}
+          padding={width > height ? `0 0 0 75px` : `0`}
         >
-          <Wrapper dr={`row`} ju={`space-between`} al={`flex-end`}>
-            <Wrapper
-              dr={`row`}
-              al={`flex-start`}
-              width={`auto`}
-              fontSize={`96px`}
-              fontWeight={`400`}
-              visibility={hours && minutes && ampm ? `visible` : `hidden`}
-            >
-              {hours}:{minutes}
-              <SpanText
-                isRelative={true}
-                top={`4px`}
-                padding={`0 0 0 10px`}
-                fontSize={`48px`}
+          {width > height && (
+            <Wrapper dr={`row`} ju={`space-between`} al={`flex-end`}>
+              <Wrapper
+                dr={`row`}
+                al={`flex-start`}
+                width={`auto`}
+                fontSize={`96px`}
+                fontWeight={`400`}
+                visibility={hours && minutes && ampm ? `visible` : `hidden`}
               >
-                {ampm}
-              </SpanText>
-            </Wrapper>
+                {hours}:{minutes}
+                <SpanText
+                  isRelative={true}
+                  top={`4px`}
+                  padding={`0 0 0 10px`}
+                  fontSize={`48px`}
+                >
+                  {ampm}
+                </SpanText>
+              </Wrapper>
 
-            <Wrapper isRelative={true} right={`10px`} width={`auto`}>
-              <Image
-                src={`https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2FspaceAdd_logo_b.png?alt=media&token=2c12df80-3370-410c-848a-1cd1976334aa`}
-                width={`150px`}
-              />
+              <Wrapper isRelative={true} right={`10px`} width={`auto`}>
+                <Image
+                  src={`https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2FspaceAdd_logo_b.png?alt=media&token=2c12df80-3370-410c-848a-1cd1976334aa`}
+                  width={`150px`}
+                />
+              </Wrapper>
             </Wrapper>
-          </Wrapper>
+          )}
 
           <Wrapper al={`flex-start`}>
             <Wrapper
               isRelative={true}
-              al={`flex-start`}
+              dr={`row`}
+              ju={`space-between`}
+              al={`flex-end`}
               margin={`0 0 30px`}
               fontSize={`52px`}
               fontWeight={`600`}
               zIndex={`9999`}
             >
               이 시각 주요뉴스
+              {width < height && (
+                <Wrapper isRelative={true} right={`10px`} width={`auto`}>
+                  <Image
+                    src={`https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2FspaceAdd_logo_b.png?alt=media&token=2c12df80-3370-410c-848a-1cd1976334aa`}
+                    width={`150px`}
+                  />
+                </Wrapper>
+              )}
               <Wrapper
                 isAbsolute={true}
                 bottom={`-30px`}
@@ -407,7 +452,7 @@ const MM00Presenter = ({
               ></Wrapper>
             </Wrapper>
 
-            <NewsSlider datum={newsDatum} />
+            <NewsSlider width={width} height={height} datum={newsDatum} />
           </Wrapper>
         </Wrapper>
       </Wrapper>
