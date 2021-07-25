@@ -117,12 +117,9 @@ const MM00Container = () => {
     const lat = query.type ? type[query.type].lat : type["DEFAULT"].lat;
     const lon = query.type ? type[query.type].lon : type["DEFAULT"].lon;
 
-    // faa4512d2d4f3d6e504d9a594d0d2128
-    // 5b6544a9120182f939912f117ffdc900
-
     await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&appid=b1e69cf636fd7783aeddaf8252ace45a`,
+        `https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=${lat}&lon=${lon}&appid=5b6544a9120182f939912f117ffdc900`,
         {},
         {
           heasers: {
@@ -175,7 +172,7 @@ const MM00Container = () => {
 
     await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&dt=${timestamp}&lat=${lat}&lon=${lon}&appid=b1e69cf636fd7783aeddaf8252ace45a`,
+        `https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&dt=${timestamp}&lat=${lat}&lon=${lon}&appid=5b6544a9120182f939912f117ffdc900`,
         {},
         {
           heasers: {
