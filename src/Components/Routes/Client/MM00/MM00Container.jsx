@@ -41,6 +41,13 @@ const MM00Container = () => {
       lon: "127.00569095238045",
       logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
     },
+
+    KH: {
+      name: "광희빌딩",
+      lat: "37.564228799608344",
+      lon: "127.00569095238045",
+      logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
+    },
   };
 
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -90,6 +97,7 @@ const MM00Container = () => {
       skip: fineDustSkip,
     }
   );
+  console.log(newsViewDatum);
 
   ///////////// - USE MUTATION- /////////////
 
