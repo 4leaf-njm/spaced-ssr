@@ -21,12 +21,6 @@ const MM00Container = () => {
 
   const addressList = ["경기"];
 
-  // lat: "37.412723757389806",
-  // lon: "127.12990235563846",
-
-  // lat: "37.39233416034177",
-  // lon: "126.63922928447333",
-
   const type = {
     DEFAULT: {
       name: "광희빌딩",
@@ -42,10 +36,17 @@ const MM00Container = () => {
       logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
     },
 
-    KH: {
-      name: "광희빌딩",
-      lat: "37.564228799608344",
-      lon: "127.00569095238045",
+    IC: {
+      name: "인천",
+      lat: "37.39233416034177",
+      lon: "126.63922928447333",
+      logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
+    },
+
+    SN: {
+      name: "성남",
+      lat: "37.412723757389806",
+      lon: "127.12990235563846",
       logo: "https://firebasestorage.googleapis.com/v0/b/storage-4leaf.appspot.com/o/SPACE%2Fassets%2Fimages%2Flogo%2Flogo-KH.png?alt=media&token=aeacb699-4eee-4ecf-8bcc-da1c762bfebc",
     },
   };
@@ -97,7 +98,6 @@ const MM00Container = () => {
       skip: fineDustSkip,
     }
   );
-  console.log(newsViewDatum);
 
   ///////////// - USE MUTATION- /////////////
 
