@@ -4,6 +4,7 @@ import MM00 from "../src/Components/Routes/Client/MM00";
 import ClientLayout from "../src/Components/Routes/Layouts/ClientLayout";
 import { NextSeo } from "next-seo";
 import seoConfig from "../src/seo.config.json";
+import { WholeWrapper } from "../src/Components/CommonComponents";
 
 const Main = () => {
   const wholeRef = useRef();
@@ -39,33 +40,35 @@ const Main = () => {
   }, [wholeRef.current]);
 
   return (
-    <ClientLayout ref={wholeRef} title={`메인 | ${process.env.HOMEPAGE_NAME}`}>
-      <NextSeo
-        title={seoConfig.title}
-        subject={seoConfig.subject}
-        author={seoConfig.author}
-        description={seoConfig.description}
-        keywords={seoConfig.keywords}
-        canonical={seoConfig.canonical}
-        openGraph={{
-          type: seoConfig.openGraph.type,
-          site_name: seoConfig.openGraph.site_name,
-          title: seoConfig.openGraph.title,
-          description: seoConfig.openGraph.description,
-          keywords: seoConfig.openGraph.keywords,
-          url: seoConfig.openGraph.url,
-          images: [
-            {
-              url: seoConfig.openGraph.images[0].url,
-              width: seoConfig.openGraph.images[0].width,
-              height: seoConfig.openGraph.images[0].height,
-            },
-          ],
-        }}
-      />
+    <WholeWrapper ref={wholeRef}>
+      <ClientLayout title={`메인 | ${process.env.HOMEPAGE_NAME}`}>
+        <NextSeo
+          title={seoConfig.title}
+          subject={seoConfig.subject}
+          author={seoConfig.author}
+          description={seoConfig.description}
+          keywords={seoConfig.keywords}
+          canonical={seoConfig.canonical}
+          openGraph={{
+            type: seoConfig.openGraph.type,
+            site_name: seoConfig.openGraph.site_name,
+            title: seoConfig.openGraph.title,
+            description: seoConfig.openGraph.description,
+            keywords: seoConfig.openGraph.keywords,
+            url: seoConfig.openGraph.url,
+            images: [
+              {
+                url: seoConfig.openGraph.images[0].url,
+                width: seoConfig.openGraph.images[0].width,
+                height: seoConfig.openGraph.images[0].height,
+              },
+            ],
+          }}
+        />
 
-      <MM00 />
-    </ClientLayout>
+        <MM00 />
+      </ClientLayout>
+    </WholeWrapper>
   );
 };
 
